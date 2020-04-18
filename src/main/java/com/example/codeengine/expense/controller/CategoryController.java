@@ -29,7 +29,7 @@ public class CategoryController {
         this.categoryRepository = categoryRepository;
     }
 
-    @GetMapping("/categiries")
+    @GetMapping("/categories")
     Collection<Category> categories() {
         return categoryRepository.findAll();
     }

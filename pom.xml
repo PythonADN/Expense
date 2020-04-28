@@ -16,6 +16,10 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<swagger.codegen.version>2.4.1</swagger.codegen.version>
+		<swagger.yaml.file>${project.basedir}/swagger.yaml</swagger.yaml.file>
+		<swagger.annotations.version>1.5.21</swagger.annotations.version>
+		<swagger.generated.sourcepath>src/main/java</swagger.generated.sourcepath>
 	</properties>
 
 	<dependencies>
@@ -49,6 +53,31 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.9.2</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>2.9.2</version>
+		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>io.swagger</groupId>-->
+<!--				<artifactId>swagger-codegen-maven-plugin</artifactId>-->
+<!--			<version>2.4.13</version>-->
+<!--		</dependency>-->
+
+		<!-- codegen -->
+		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-annotations</artifactId>
+			<version>${swagger.annotations.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -56,6 +85,38 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+			<!-- codegen -->
+			<plugin>
+				<groupId>io.swagger</groupId>
+				<artifactId>swagger-codegen-maven-plugin</artifactId>
+				<version>${swagger.codegen.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputSpec>${swagger.yaml.file}</inputSpec>
+							<language>spring</language>
+							<configOptions>
+								<sourceFolder>${swagger.generated.sourcepath}</sourceFolder>
+								<!-- <interfaceOnly>true</interfaceOnly> -->
+								<dateLibrary>java8</dateLibrary>
+							</configOptions>
+							<typeMappings>
+								<typeMapping>OffsetDateTime=Instant</typeMapping>
+							</typeMappings>
+							<importMappings>
+								<importMapping>java.time.OffsetDateTime=java.time.Instant</importMapping>
+							</importMappings>
+							<modelPackage>${project.groupId}.${project.artifactId}.swagger.model</modelPackage>
+							<apiPackage>${project.groupId}.${project.artifactId}.swagger.api</apiPackage>
+							<invokerPackage>${project.groupId}.${project.artifactId}.swagger.invoker</invokerPackage>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

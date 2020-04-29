@@ -19,7 +19,7 @@ tags:
   - name: expense-controller
     description: Expense Controller
 paths:
-  /api/categories:
+  /categories:
     get:
       tags:
         - category-controller
@@ -41,7 +41,7 @@ paths:
         '404':
           description: Not Found
       deprecated: false
-  /api/category:
+  /category:
     post:
       tags:
         - category-controller
@@ -102,7 +102,7 @@ paths:
         '404':
           description: Not Found
       deprecated: false
-  '/api/category/{id}':
+  '/category/{id}':
     get:
       tags:
         - category-controller
@@ -155,7 +155,7 @@ paths:
         '403':
           description: Forbidden
       deprecated: false
-  /api/expenses:
+  /expenses:
     get:
       tags:
         - expense-controller
@@ -207,7 +207,7 @@ paths:
         '404':
           description: Not Found
       deprecated: false
-  '/api/expenses/{id}':
+  '/expenses/{id}':
     delete:
       tags:
         - expense-controller

@@ -15,11 +15,13 @@
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
-		<java.version>1.8</java.version>
-		<swagger.codegen.version>2.4.1</swagger.codegen.version>
-		<swagger.yaml.file>${project.basedir}/swagger.yaml</swagger.yaml.file>
-		<swagger.annotations.version>1.5.21</swagger.annotations.version>
-		<swagger.generated.sourcepath>src/main/java</swagger.generated.sourcepath>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.6</maven.compiler.source>
+		<maven.compiler.target>1.6</maven.compiler.target>
+		<version.swagger.codegen>2.2.1</version.swagger.codegen>
+		<yaml.file>${project.basedir}/src/main/resources/static/swagger.yaml</yaml.file>
+		<generated-sources-path>${project.build.directory}/generated-sources</generated-sources-path>
+		<generated-sources-java-path>main/java</generated-sources-java-path>
 	</properties>
 
 	<dependencies>
@@ -70,50 +72,55 @@
 <!--			<version>2.4.13</version>-->
 <!--		</dependency>-->
 
-		<!-- codegen -->
+		<!-- формат дат для codegen -->
 		<dependency>
-			<groupId>io.swagger</groupId>
-			<artifactId>swagger-annotations</artifactId>
-			<version>${swagger.annotations.version}</version>
-			<scope>compile</scope>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>2.10.5</version>
 		</dependency>
-
 	</dependencies>
 
 	<build>
 		<plugins>
+			<!-- Запуск проекта ExpenseApplication -->
+<!--			<plugin>-->
+<!--				<groupId>org.springframework.boot</groupId>-->
+<!--				<artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--			</plugin>-->
+			<!-- генерация java-8 при формировании заглушки -->
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>8</source>
+					<target>8</target>
+				</configuration>
 			</plugin>
-
-			<!-- codegen -->
+			<!-- Swagger codegen -->
 			<plugin>
 				<groupId>io.swagger</groupId>
 				<artifactId>swagger-codegen-maven-plugin</artifactId>
-				<version>${swagger.codegen.version}</version>
+				<version>${version.swagger.codegen}</version>
+				<configuration>
+					<inputSpec>${yaml.file}</inputSpec>
+					<configOptions>
+						<dateLibrary>threetenbp</dateLibrary>
+						<sourceFolder>${generated-sources-java-path}</sourceFolder>
+					</configOptions>
+					<output>${generated-sources-path}</output>
+				</configuration>
 				<executions>
 					<execution>
+						<id>generate-swagger-spring</id>
+						<phase>generate-sources</phase>
 						<goals>
 							<goal>generate</goal>
 						</goals>
 						<configuration>
-							<inputSpec>${swagger.yaml.file}</inputSpec>
 							<language>spring</language>
-							<configOptions>
-								<sourceFolder>${swagger.generated.sourcepath}</sourceFolder>
-								<!-- <interfaceOnly>true</interfaceOnly> -->
-								<dateLibrary>java8</dateLibrary>
-							</configOptions>
-							<typeMappings>
-								<typeMapping>OffsetDateTime=Instant</typeMapping>
-							</typeMappings>
-							<importMappings>
-								<importMapping>java.time.OffsetDateTime=java.time.Instant</importMapping>
-							</importMappings>
-							<modelPackage>${project.groupId}.${project.artifactId}.swagger.model</modelPackage>
-							<apiPackage>${project.groupId}.${project.artifactId}.swagger.api</apiPackage>
-							<invokerPackage>${project.groupId}.${project.artifactId}.swagger.invoker</invokerPackage>
+							<modelPackage>${project.groupId}.swagger.model</modelPackage>
+							<apiPackage>${project.groupId}.swagger.api</apiPackage>
+							<invokerPackage>${project.groupId}.swagger.invoker</invokerPackage>
 						</configuration>
 					</execution>
 				</executions>

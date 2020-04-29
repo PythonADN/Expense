@@ -18,7 +18,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/")
 public class ExpenseController {
     @Autowired
     private ExpenseRepository expenseRepository;

@@ -23,7 +23,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/")
 //@Api(description = "Контроллер Категорий")
 public class CategoryController {
 //    @Autowired

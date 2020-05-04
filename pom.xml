@@ -18,10 +18,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.6</maven.compiler.source>
 		<maven.compiler.target>1.6</maven.compiler.target>
-		<version.swagger.codegen>2.2.1</version.swagger.codegen>
+		<version.swagger.codegen>2.3.1</version.swagger.codegen>
 		<yaml.file>${project.basedir}/src/main/resources/static/swagger.yaml</yaml.file>
-		<generated-sources-path>${project.build.directory}/generated-sources</generated-sources-path>
-		<generated-sources-java-path>main/java</generated-sources-java-path>
 	</properties>
 
 	<dependencies>
@@ -66,11 +64,6 @@
 			<artifactId>springfox-swagger-ui</artifactId>
 			<version>2.9.2</version>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>io.swagger</groupId>-->
-<!--				<artifactId>swagger-codegen-maven-plugin</artifactId>-->
-<!--			<version>2.4.13</version>-->
-<!--		</dependency>-->
 
 		<!-- формат дат для codegen -->
 		<dependency>
@@ -83,10 +76,10 @@
 	<build>
 		<plugins>
 			<!-- Запуск проекта ExpenseApplication -->
-<!--			<plugin>-->
-<!--				<groupId>org.springframework.boot</groupId>-->
-<!--				<artifactId>spring-boot-maven-plugin</artifactId>-->
-<!--			</plugin>-->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
 			<!-- генерация java-8 при формировании заглушки -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -101,26 +94,30 @@
 				<groupId>io.swagger</groupId>
 				<artifactId>swagger-codegen-maven-plugin</artifactId>
 				<version>${version.swagger.codegen}</version>
-				<configuration>
-					<inputSpec>${yaml.file}</inputSpec>
-					<configOptions>
-						<dateLibrary>threetenbp</dateLibrary>
-						<sourceFolder>${generated-sources-java-path}</sourceFolder>
-					</configOptions>
-					<output>${generated-sources-path}</output>
-				</configuration>
 				<executions>
 					<execution>
-						<id>generate-swagger-spring</id>
-						<phase>generate-sources</phase>
+						<phase>validate</phase>
 						<goals>
 							<goal>generate</goal>
 						</goals>
 						<configuration>
 							<language>spring</language>
-							<modelPackage>${project.groupId}.swagger.model</modelPackage>
-							<apiPackage>${project.groupId}.swagger.api</apiPackage>
-							<invokerPackage>${project.groupId}.swagger.invoker</invokerPackage>
+							<inputSpec>${yaml.file}</inputSpec>
+							<!-- куда собирать файлы (${generated-sources-path} - в target) -->
+							<output>${project.basedir}</output>
+							<!-- пакет для сущностей -->
+							<modelPackage>${project.groupId}.expense.modelApi</modelPackage>
+							<!-- пакет для контроллеров -->
+							<apiPackage>${project.groupId}.expense.controllerApi</apiPackage>
+							<!-- генерация только api и модели -->
+							<generateSupportingFiles>false</generateSupportingFiles>
+							<generateApis>true</generateApis>
+							<!-- generateApiDocumentation отключена из за interfaceOnly -->
+							<configOptions>
+								<java8>true</java8>
+								<dateLibrary>java8</dateLibrary>
+								<interfaceOnly>true</interfaceOnly>
+							</configOptions>
 						</configuration>
 					</execution>
 				</executions>

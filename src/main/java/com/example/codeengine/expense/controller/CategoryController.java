@@ -33,7 +33,7 @@ public class CategoryController {
         this.categoryRepository = categoryRepository;
     }
 
-    @GetMapping("/categories")
+    @GetMapping("/category")
 //    @ApiOperation(value = "Вернуть все категории", notes = "описание", response = Category[].class)
     Collection<Category> categories() {
         return categoryRepository.findAll();

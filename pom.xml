@@ -106,12 +106,13 @@
 							<!-- куда собирать файлы (${generated-sources-path} - в target) -->
 							<output>${project.basedir}</output>
 							<!-- пакет для сущностей -->
-							<modelPackage>${project.groupId}.expense.modelApi</modelPackage>
+							<modelPackage>${project.groupId}.expense.model</modelPackage>
 							<!-- пакет для контроллеров -->
 							<apiPackage>${project.groupId}.expense.controllerApi</apiPackage>
 							<!-- генерация только api и модели -->
 							<generateSupportingFiles>false</generateSupportingFiles>
 							<generateApis>true</generateApis>
+							<generateModels>false</generateModels>
 							<!-- generateApiDocumentation отключена из за interfaceOnly -->
 							<configOptions>
 								<java8>true</java8>

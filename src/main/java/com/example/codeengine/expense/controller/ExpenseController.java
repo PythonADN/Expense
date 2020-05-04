@@ -1,13 +1,12 @@
 package com.example.codeengine.expense.controller;
 
+import com.example.codeengine.expense.controllerApi.ExpensesApi;
 import com.example.codeengine.expense.model.Expense;
 import com.example.codeengine.expense.repository.ExpenseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/")
-public class ExpenseController {
+public class ExpenseController implements ExpensesApi {
     @Autowired
     private ExpenseRepository expenseRepository;
 
@@ -27,21 +26,26 @@ public class ExpenseController {
 //        this.expenseRepository = expenseRepository;
 //    }
 
-    @GetMapping("/expenses")
-    List<Expense> getExpense() {
-        return expenseRepository.findAll();
+    @Override
+    public ResponseEntity<List<Expense>> getExpenseUsingGET() {
+        return ResponseEntity.ok().body(expenseRepository.findAll());
     }
 
-    @DeleteMapping("/expenses/{id}")
-    ResponseEntity<Expense> deleteExpense(@PathVariable Long id) {
+    @Override
+    public ResponseEntity<Expense> deleteExpenseUsingDELETE(@PathVariable Long id) {
         expenseRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/expenses")
-    ResponseEntity<Expense> createExpenses(@Valid @RequestBody Expense expense) throws URISyntaxException {
+    @Override
+    public ResponseEntity<Expense> createExpensesUsingPOST(@Valid @RequestBody Expense expense) {
         Expense result = expenseRepository.save(expense);
-        return ResponseEntity.created(new URI("api/expenses" + result.getId())).body(result);
+        try {
+            return ResponseEntity.created(new URI("api/expenses" + result.getId())).body(result);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }

@@ -23,10 +23,10 @@ paths:
     get:
       tags:
         - category-controller
-      summary: categories
+      summary: categoriesUsingGET
       operationId: categoriesUsingGET
       produces:
-        - '*/*'
+        - 'application/JSON'
       responses:
         '200':
           description: OK
@@ -44,12 +44,12 @@ paths:
     post:
       tags:
         - category-controller
-      summary: createCategory
+      summary: createCategoryUsingPOST
       operationId: createCategoryUsingPOST
       consumes:
         - application/json
       produces:
-        - '*/*'
+        - 'application/JSON'
       parameters:
         - in: body
           name: category
@@ -74,12 +74,12 @@ paths:
     put:
       tags:
         - category-controller
-      summary: updateCategory
+      summary: updateCategoryUsingPUT
       operationId: updateCategoryUsingPUT
       consumes:
         - application/json
       produces:
-        - '*/*'
+        - 'application/JSON'
       parameters:
         - in: body
           name: category
@@ -105,10 +105,10 @@ paths:
     get:
       tags:
         - category-controller
-      summary: categoryById
+      summary: categoryByIdUsingGET
       operationId: categoryByIdUsingGET
       produces:
-        - '*/*'
+        - 'application/JSON'
       parameters:
         - name: id
           in: path
@@ -131,10 +131,10 @@ paths:
     delete:
       tags:
         - category-controller
-      summary: deleteCategory
+      summary: deleteCategoryUsingDELETE
       operationId: deleteCategoryUsingDELETE
       produces:
-        - '*/*'
+        - 'application/JSON'
       parameters:
         - name: id
           in: path
@@ -158,10 +158,10 @@ paths:
     get:
       tags:
         - expense-controller
-      summary: getExpense
+      summary: getExpenseUsingGET
       operationId: getExpenseUsingGET
       produces:
-        - '*/*'
+        - 'application/JSON'
       responses:
         '200':
           description: OK
@@ -179,12 +179,12 @@ paths:
     post:
       tags:
         - expense-controller
-      summary: createExpenses
+      summary: createExpensesUsingPOST
       operationId: createExpensesUsingPOST
       consumes:
         - application/json
       produces:
-        - '*/*'
+        - 'application/JSON'
       parameters:
         - in: body
           name: expense
@@ -210,10 +210,10 @@ paths:
     delete:
       tags:
         - expense-controller
-      summary: deleteExpense
+      summary: deleteExpenseUsingDELETE
       operationId: deleteExpenseUsingDELETE
       produces:
-        - '*/*'
+        - 'application/JSON'
       parameters:
         - name: id
           in: path

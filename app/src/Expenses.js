@@ -27,7 +27,7 @@ class Expenses extends Component {
     handleSubmit = async (event) => {
         const { item } = this.state;
         console.log(event);
-        await fetch(`api/expenses`, {
+        await fetch(`expenses`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -61,7 +61,7 @@ class Expenses extends Component {
     };
 
     remove = async (id) => {
-        await fetch(`api/expenses/${id}`, {
+        await fetch(`expenses/${id}`, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',
@@ -86,11 +86,11 @@ class Expenses extends Component {
     }
 
     componentDidMount = async () => {
-        const responseCategories = await fetch('api/categories');
+        const responseCategories = await fetch('category');
         const bodyCategories = await responseCategories.json();
         this.setState({ categories: bodyCategories, isLoading: false })
 
-        const responseExpenses = await fetch('api/expenses');
+        const responseExpenses = await fetch('expenses');
         const bodyExpenses = await responseExpenses.json();
         this.setState({ expenses: bodyExpenses, isLoading: false })
     };
